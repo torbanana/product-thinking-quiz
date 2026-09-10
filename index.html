@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Thinking Trainer</title>
+<meta name="description" content="Learn product thinking module by module — a short brief, then multiple-choice practice with explanations, then a final scenario quiz.">
+<style>
+  :root{
+    --bg:#07080f;
+    --bg-2:#0b0d18;
+    --surface:#12152a;
+    --surface-2:#181c34;
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.16);
+    --text:#eef0fb;
+    --text-2:#c4c9e4;
+    --muted:#8f96bd;
+    --brand:#7c6cff;
+    --brand-2:#b06cff;
+    --accent:#00e6c3;
+    --good:#22d39a;
+    --good-bg:rgba(34,211,154,.12);
+    --bad:#ff5c8a;
+    --bad-bg:rgba(255,92,138,.12);
+    --wrap:920px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--text-2);
+    font:400 17px/1.65 "Inter","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  /* ambient light */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(680px 480px at 8% -8%, rgba(124,108,255,.22), transparent 62%),
+      radial-gradient(620px 520px at 100% 0%, rgba(0,230,195,.13), transparent 60%),
+      radial-gradient(760px 640px at 50% 118%, rgba(176,108,255,.14), transparent 62%);
+  }
+  h1,h2,h3,h4{color:var(--text);margin:0;line-height:1.22;letter-spacing:-.025em}
+  p{margin:0}
+  em{font-style:italic;color:var(--text)}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+  [hidden]{display:none !important}
+  ::selection{background:rgba(124,108,255,.35);color:#fff}
+  .grad{background:linear-gradient(96deg,#fff 8%,#c9bcff 52%,#8ff0e0 96%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* ---------- header ---------- */
+  header.app{
+    position:sticky;top:0;z-index:40;
+    background:rgba(7,8,15,.72);backdrop-filter:saturate(160%) blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  header.app .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:13px}
+  .brand{display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;cursor:pointer;text-align:left;font:inherit}
+  .brand .mark{
+    width:37px;height:37px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;
+    background:linear-gradient(140deg,var(--brand),var(--brand-2));color:#fff;font-weight:800;font-size:14px;
+    box-shadow:0 6px 20px -6px rgba(124,108,255,.7);
+  }
+  .brand b{display:block;color:var(--text);font-size:15px;letter-spacing:-.015em}
+  .brand small{display:block;color:var(--muted);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase}
+  .track{display:flex;align-items:center;gap:12px}
+  .bar{width:140px;height:7px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;
+    background:linear-gradient(90deg,var(--brand),var(--accent));
+    box-shadow:0 0 14px rgba(124,108,255,.6);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .track span{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font:600 16px/1 inherit;padding:14px 26px;border-radius:999px;border:1px solid transparent;
+    cursor:pointer;transition:transform .16s,box-shadow .16s,background .16s,border-color .16s,color .16s;
+  }
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;
+    box-shadow:0 10px 30px -12px rgba(124,108,255,.95);
+  }
+  .btn-primary:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 16px 38px -14px rgba(124,108,255,1)}
+  .btn-line{background:rgba(255,255,255,.04);color:var(--text);border-color:var(--line-2)}
+  .btn-line:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.28)}
+  .btn-sm{padding:10px 18px;font-size:14px}
+  .btn-quiet{background:none;border:0;color:var(--muted);font:600 14px/1 inherit;cursor:pointer;padding:8px 0;
+    transition:color .15s}
+  .btn-quiet:hover{color:var(--text)}
+
+  /* ---------- hero ---------- */
+  .hero .wrap{padding-block:76px 56px;position:relative}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--accent);
+    border:1px solid rgba(0,230,195,.3);background:rgba(0,230,195,.08);
+    padding:7px 15px;border-radius:999px;margin-bottom:24px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  .hero h1{font-size:clamp(2.4rem,6.2vw,3.9rem);font-weight:800;letter-spacing:-.04em}
+  .hero .lede{color:var(--text-2);font-size:clamp(1.02rem,2.2vw,1.22rem);margin-top:20px;max-width:620px}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:36px;padding:0;list-style:none}
+  .steps li{
+    background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:13px;padding:16px 18px;
+    font-size:14.5px;color:var(--text-2);
+  }
+  .steps b{display:block;color:var(--text);font-size:13px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:7px}
+  .steps b span{color:var(--brand-2)}
+
+  /* ---------- sections ---------- */
+  main{padding-block:20px 90px}
+  .sec-head{margin-bottom:22px}
+  .sec-head h2{font-size:1.5rem;font-weight:800}
+  .sec-head p{color:var(--muted);margin-top:8px;font-size:.99rem}
+
+  /* module list */
+  .mods{display:grid;gap:12px}
+  .mod{
+    position:relative;overflow:hidden;
+    display:grid;grid-template-columns:46px 1fr auto;gap:20px;align-items:center;
+    width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
+    background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));
+    border:1px solid var(--line);border-radius:15px;padding:19px 22px;
+    transition:transform .18s,border-color .18s,box-shadow .18s;
+  }
+  .mod::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:linear-gradient(180deg,var(--brand),var(--brand-2));opacity:0;transition:opacity .18s;
+  }
+  .mod:hover{transform:translateY(-2px);border-color:var(--line-2);box-shadow:0 18px 40px -28px rgba(0,0,0,.9)}
+  .mod:hover::before{opacity:1}
+  .mod .idx{
+    font-size:1.45rem;font-weight:800;letter-spacing:-.05em;
+    background:linear-gradient(140deg,var(--brand),var(--brand-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .mod h3{font-size:1.06rem;font-weight:700}
+  .mod .meta{display:block;font-size:13.5px;color:var(--muted);margin-top:5px}
+  .mod .state{
+    font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:999px;white-space:nowrap;
+    background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--line);
+  }
+  .mod.done{border-color:rgba(34,211,154,.32)}
+  .mod.done::before{opacity:1;background:linear-gradient(180deg,var(--good),var(--accent))}
+  .mod.done .state{background:var(--good-bg);color:var(--good);border-color:rgba(34,211,154,.35)}
+
+  /* quiz gate */
+  .gate{
+    margin-top:24px;border-radius:16px;padding:26px 28px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:20px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    border:1px solid var(--line);
+  }
+  .gate.open{
+    border-color:rgba(124,108,255,.45);
+    background:linear-gradient(120deg,rgba(124,108,255,.16),rgba(176,108,255,.07));
+    box-shadow:0 22px 60px -38px rgba(124,108,255,1);
+  }
+  .gate .copy{flex:1 1 300px}
+  .gate h3{font-size:1.16rem;margin-bottom:6px}
+  .gate p{color:var(--muted);font-size:.96rem}
+  .gate .lock{font-size:1.6rem;line-height:1}
+
+  /* ---------- learn: brief ---------- */
+  .panel{
+    background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));
+    border:1px solid var(--line);border-radius:18px;padding:34px 32px;
+    box-shadow:0 26px 70px -46px rgba(0,0,0,1);
+  }
+  .fade{animation:fade .34s cubic-bezier(.2,.9,.25,1)}
+  @keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .stage{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-2);margin-bottom:13px}
+  .panel h2{font-size:clamp(1.5rem,3.4vw,1.95rem);font-weight:800}
+  .panel .sub{color:var(--muted);margin-top:10px;font-size:1rem}
+  .points{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:13px}
+  .points li{
+    display:grid;grid-template-columns:26px 1fr;gap:15px;align-items:start;
+    background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    font-size:1rem;color:var(--text-2);
+  }
+  .points .n{
+    width:26px;height:26px;border-radius:8px;display:grid;place-items:center;margin-top:1px;
+    background:rgba(124,108,255,.16);border:1px solid rgba(124,108,255,.32);
+    color:#c3b8ff;font-size:12.5px;font-weight:800;
+  }
+  .points b{color:var(--text)}
+
+  /* ---------- MCQ ---------- */
+  .topline{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+  .topline h2{font-size:1.16rem;font-weight:700}
+  .topline .count{font-size:13.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+  .qtext{font-size:clamp(1.14rem,2.7vw,1.4rem);font-weight:700;color:var(--text);line-height:1.42;letter-spacing:-.02em}
+  .opts{display:grid;gap:10px;margin-top:24px}
+  .opt{
+    display:flex;gap:14px;align-items:flex-start;text-align:left;font:inherit;font-size:1rem;
+    color:var(--text-2);cursor:pointer;
+    background:rgba(255,255,255,.035);border:1.5px solid var(--line);border-radius:13px;padding:15px 17px;
+    transition:border-color .16s,background .16s,transform .16s,color .16s;
+  }
+  .opt:not(:disabled):hover{border-color:rgba(124,108,255,.6);background:rgba(124,108,255,.09);transform:translateX(3px);color:var(--text)}
+  .opt .letter{
+    flex:0 0 auto;width:25px;height:25px;border-radius:7px;display:grid;place-items:center;margin-top:1px;
+    background:rgba(255,255,255,.07);border:1px solid var(--line-2);
+    font-size:12.5px;font-weight:800;color:var(--muted);transition:all .16s;
+  }
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:rgba(34,211,154,.6);background:var(--good-bg);color:var(--text)}
+  .opt.correct .letter{background:var(--good);border-color:var(--good);color:#04120c}
+  .opt.wrong{border-color:rgba(255,92,138,.6);background:var(--bad-bg);color:var(--text)}
+  .opt.wrong .letter{background:var(--bad);border-color:var(--bad);color:#1a0209}
+  .opt.dim{opacity:.42}
+  .why{
+    margin-top:20px;border-radius:13px;padding:18px 20px;font-size:.99rem;color:var(--text-2);
+    border:1px solid var(--line);border-left:3px solid var(--brand);background:rgba(124,108,255,.07);
+  }
+  .why.ok{border-left-color:var(--good);background:var(--good-bg)}
+  .why.no{border-left-color:var(--bad);background:var(--bad-bg)}
+  .why b{display:block;margin-bottom:6px;font-size:12px;letter-spacing:.11em;text-transform:uppercase}
+  .why.ok b{color:var(--good)} .why.no b{color:var(--bad)}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px}
+  .foot .score{font-size:13.5px;font-weight:600;color:var(--muted)}
+  .backline{margin-bottom:16px}
+
+  /* ---------- results ---------- */
+  .result{text-align:center;padding:42px 32px}
+  .ring{width:158px;height:158px;margin:0 auto 24px;position:relative}
+  .ring .val{position:absolute;inset:0;display:grid;place-items:center;font-size:2.25rem;font-weight:800;color:var(--text);letter-spacing:-.04em}
+  .result h2{font-size:1.65rem;font-weight:800}
+  .result .msg{color:var(--muted);margin-top:11px;font-size:1.03rem}
+  .weak{margin-top:28px;text-align:left;background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:13px;padding:20px 22px}
+  .weak h4{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:13px}
+  .weak ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+  .weak li{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;color:var(--muted);font-size:.96rem}
+  .weak button{background:none;border:0;padding:0;font:700 16px/1.4 inherit;color:#b3a8ff;cursor:pointer;
+    text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(179,168,255,.4)}
+  .weak button:hover{color:#d3cbff}
+  .rowbtns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+
+  @media (max-width:640px){
+    .brand small{display:none}
+    .bar{width:76px}
+    .hero .wrap{padding-block:52px 40px}
+    .mod{grid-template-columns:34px 1fr;gap:14px}
+    .mod .state{grid-column:2;justify-self:start}
+    .panel{padding:26px 20px}
+    .foot{flex-direction:column;align-items:stretch}
+    .foot .btn{width:100%}
+    .foot .score{text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="wrap">
+    <button class="brand" id="homeBtn">
+      <span class="mark">PT</span>
+      <span>
+        <b>Product Thinking Trainer</b>
+        <small>Learn &middot; Practise &middot; Quiz</small>
+      </span>
+    </button>
+    <div class="track">
+      <div class="bar"><i id="barFill"></i></div>
+      <span id="barLabel">0 / 7</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<div id="view-home">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="dot"></span> Learning Pathway</span>
+      <h1 class="grad">Product Thinking</h1>
+      <p class="lede">Before you build, you need to think clearly about the problem. Learn to define, scope and frame challenges so your solutions solve the right thing.</p>
+      <ul class="steps">
+        <li><b><span>01</span> &nbsp;Read the brief</b>Each module opens with the key ideas, in plain language.</li>
+        <li><b><span>02</span> &nbsp;Practise</b>Multiple choice, with an explanation after every answer.</li>
+        <li><b><span>03</span> &nbsp;Take the quiz</b>Twenty scenarios, unlocked once all modules are done.</li>
+      </ul>
+    </div>
+  </section>
+
+  <main>
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Seven modules</h2>
+        <p>Nothing is asked before it is taught. Get a question wrong and it returns later in the module.</p>
+      </div>
+      <div class="mods" id="modList"></div>
+
+      <div class="gate" id="gate">
+        <span class="lock" id="gateIcon">&#128274;</span>
+        <div class="copy">
+          <h3 id="gateTitle">Final quiz locked</h3>
+          <p id="gateText"></p>
+        </div>
+        <button class="btn btn-primary" id="quizBtn" disabled>Start the quiz</button>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <button class="btn-quiet" id="resetBtn">Reset all progress</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ================= BRIEF ================= -->
+<div id="view-brief" hidden>
+  <main>
+    <div class="wrap">
+      <div class="backline"><button class="btn-quiet" data-home>&larr; All modules</button></div>
+      <div class="panel fade">
+        <p class="stage" id="briefStage"></p>
+        <h2 id="briefTitle"></h2>
+        <p class="sub" id="briefSub"></p>
+        <ul class="points" id="briefPoints"></ul>
+        <div class="foot">
+          <span class="score" id="briefCount"></span>
+          <button class="btn btn-primary" id="briefGo">Start practice &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ================= PRACTICE ================= -->
+<div id="view-practice" hidden>
+  <main>
+    <div class="wrap">
+      <div class="backline"><button class="btn-quiet" data-home>&larr; All modules</button></div>
+      <div class="topline">
+        <h2 id="pTitle"></h2>
+        <span class="count" id="pCount"></span>
+      </div>
+      <div class="bar" style="width:100%;margin-bottom:18px"><i id="pFill"></i></div>
+      <div class="panel">
+        <p class="stage">Practice</p>
+        <p class="qtext" id="pQ"></p>
+        <div class="opts" id="pOpts"></div>
+        <div class="why" id="pWhy" hidden><b id="pWhyLabel"></b><span id="pWhyText"></span></div>
+        <div class="foot">
+          <span class="score" id="pHint">Pick the best answer &mdash; you will see why straight after.</span>
+          <button class="btn btn-primary" id="pNext" hidden>Continue</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ================= QUIZ ================= -->
+<div id="view-quiz" hidden>
+  <main>
+    <div class="wrap">
+      <div class="backline"><button class="btn-quiet" data-home>&larr; Leave quiz</button></div>
+      <div class="topline">
+        <h2>Final scenario quiz</h2>
+        <span class="count" id="qCount"></span>
+      </div>
+      <div class="bar" style="width:100%;margin-bottom:18px"><i id="qFill"></i></div>
+      <div class="panel">
+        <p class="stage" id="qStage">Scenario</p>
+        <p class="qtext" id="qQ"></p>
+        <div class="opts" id="qOpts"></div>
+        <div class="why" id="qWhy" hidden><b id="qWhyLabel"></b><span id="qWhyText"></span></div>
+        <div class="foot">
+          <span class="score" id="qScore"></span>
+          <button class="btn btn-primary" id="qNext" hidden>Next question</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div id="view-result" hidden>
+  <main>
+    <div class="wrap" style="max-width:640px">
+      <div class="panel result fade">
+        <div class="ring">
+          <svg width="158" height="158">
+            <circle cx="79" cy="79" r="69" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="12"/>
+            <circle id="ringArc" cx="79" cy="79" r="69" fill="none" stroke="url(#rg)" stroke-width="12"
+                    stroke-linecap="round" stroke-dasharray="433.5" stroke-dashoffset="433.5"
+                    transform="rotate(-90 79 79)"
+                    style="transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)"/>
+            <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c6cff"/><stop offset="100%" stop-color="#00e6c3"/>
+            </linearGradient></defs>
+          </svg>
+          <div class="val" id="ringVal">0%</div>
+        </div>
+        <h2 id="resTitle"></h2>
+        <p class="msg" id="resMsg"></p>
+        <div class="weak" id="weakBox" hidden>
+          <h4>Worth another pass</h4>
+          <ul id="weakList"></ul>
+        </div>
+        <div class="rowbtns">
+          <button class="btn btn-primary" id="retakeBtn">Retake the quiz</button>
+          <button class="btn btn-line" data-home>Back to modules</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ==========================================================================
+   CONTENT
+   Module titles and themes follow the IDG "Product Thinking" pathway.
+   The briefs, practice questions and quiz scenarios are written for this
+   trainer — they are not verbatim IDG course material.
+   ========================================================================== */
+
+const MODULES = [
+{
+  id:"m1", title:"Understanding the Problem",
+  blurb:"Why solutions start with problems, not technologies",
+  sub:"Good digital solutions begin with a problem worth solving. Here is the mindset that keeps you there.",
+  points:[
+    "<b>Problems before solutions.</b> Choose the technology first and you end up with a solution hunting for a problem &mdash; money and effort committed before anyone checked the problem was real.",
+    "<b>Outcomes over outputs.</b> An output is what you shipped (a dashboard, a chatbot, a training session). An outcome is the change that followed (cases resolved faster, fewer errors). Success is measured by the second.",
+    "<b>Policy-Ops-Tech integration.</b> Policy intent, operational reality and technical build are designed <em>together</em>. Sign them off one after another and you get solutions that are elegant but operationally impossible, or compliant but unusable.",
+    "<b>In practice.</b> When someone arrives asking for a specific technology, your first move is to ask what problem it is meant to solve &mdash; and what evidence says that problem is real."
+  ],
+  practice:[
+    {q:"A director says: &ldquo;We should use a large language model to modernise our department.&rdquo; What is the main problem with this as a starting point?",
+     opts:["It states a solution before anyone has stated a problem","Large language models are unsuitable for government work","The budget has not been approved yet","It does not name a specific vendor"],
+     correct:0,
+     why:"This is a technology looking for a job. Product thinking runs the other way &mdash; establish the problem and the evidence for it first, then judge whether an LLM is the right answer. It may well be; you just cannot know yet."},
+    {q:"Which of these is an <em>outcome</em> rather than an output?",
+     opts:["Average case resolution time fell from 9 days to 4","Twelve new dashboard pages were shipped","Training was delivered to 200 officers","The system now handles 5,000 requests per second"],
+     correct:0,
+     why:"An outcome is the change achieved. The other three are all real work the team produced &mdash; but none of them tells you whether anything actually improved for anyone."},
+    {q:"What does Policy-Ops-Tech integration mean?",
+     opts:["Policy intent, operational reality and technical build are designed together","Three separate teams sign off in sequence","Technical decisions get escalated to policy officers","Operations takes over once the tech team has finished"],
+     correct:0,
+     why:"Sequential sign-off is precisely the failure this guards against. Designing together is what stops a solution being technically fine but impossible to run, or policy-perfect but unusable."},
+    {q:"Your team is asked to build a booking system. What should you do first?",
+     opts:["Understand what problem the booking system is meant to solve, and check the evidence","Draft the technical architecture","Estimate the delivery timeline","Choose the technology stack"],
+     correct:0,
+     why:"All three of the others are necessary later. Do them first and you will build a well-architected, on-time, well-engineered answer to a question nobody confirmed was worth asking."},
+    {q:"A team ships every feature on the roadmap, on time. Adoption stays flat and processing times are unchanged. In product thinking terms:",
+     opts:["They delivered outputs but no outcome","They succeeded, since the roadmap was completed","The roadmap needed more features","The problem was the delivery timeline"],
+     correct:0,
+     why:"A completed roadmap is a list of outputs. If nothing changed for users, the outcome never arrived &mdash; which usually means the problem was framed wrongly at the start."}
+  ]
+},
+{
+  id:"m2", title:"Craft a Clear Problem Statement",
+  blurb:"The 4Cs: Clarity, Consequence, Cause, Confirmation",
+  sub:"A vague problem leads to a vague solution. The 4Cs turn a complaint into a problem worth solving.",
+  points:[
+    "<b>Clarity.</b> Who exactly is affected, and what specifically is going wrong for them? A named group and a named failure &mdash; not &ldquo;the process is inefficient.&rdquo;",
+    "<b>Consequence.</b> What does it cost if nothing changes &mdash; in time, money, risk or public trust? This is the &ldquo;so what?&rdquo; that justifies working on this instead of something else.",
+    "<b>Cause.</b> What is the underlying driver, rather than the visible symptom? This is where root cause analysis does its work (the next module).",
+    "<b>Confirmation.</b> What data shows the problem is real, and this big? Evidence &mdash; not anecdote, assumption, or the loudest voice in the room.",
+    "<b>Watch for smuggled solutions.</b> &ldquo;We need to rebuild the portal&rdquo; is not a problem statement. Once a solution is baked in, nobody ever checks whether it was the right one."
+  ],
+  practice:[
+    {q:"The 4Cs Framework consists of:",
+     opts:["Clarity, Consequence, Cause, Confirmation","Clarity, Cost, Capability, Confirmation","Customer, Context, Cause, Change","Clarity, Consequence, Capacity, Cost"],
+     correct:0,
+     why:"Clarity (who and what), Consequence (so what), Cause (why), Confirmation (how do we know)."},
+    {q:"&ldquo;Who is affected, and what specifically is going wrong for them?&rdquo; &mdash; which C is this?",
+     opts:["Clarity","Consequence","Cause","Confirmation"],
+     correct:0,
+     why:"Clarity forces you to name a real group and a real failure, instead of a general complaint that could apply anywhere."},
+    {q:"&ldquo;If nothing changes, this costs us 600 staff hours a month and damages public trust.&rdquo; &mdash; which C is this?",
+     opts:["Consequence","Clarity","Cause","Confirmation"],
+     correct:0,
+     why:"Consequence answers &ldquo;so what?&rdquo; It is what justifies spending scarce effort here rather than on the next problem along."},
+    {q:"Which statement belongs under <b>Confirmation</b>?",
+     opts:["A three-month sample shows 38% of forms are returned for the same missing field","The team agrees the form feels confusing","A vendor says their product halves processing time","A senior officer has asked us to fix the form"],
+     correct:0,
+     why:"Confirmation is evidence that the problem is real and this size. Team consensus, sales material and instructions from above are none of those things."},
+    {q:"&ldquo;Grant applications take 21 days against a 7-day standard. Four in ten applicants call to chase, adding ~600 calls a month.&rdquo; Which C is still missing?",
+     opts:["Cause","Clarity","Consequence","Confirmation"],
+     correct:0,
+     why:"It is clear, it states the consequence, and it cites data. What it never says is <em>why</em> processing takes 21 days &mdash; so any solution built from it would be a guess."},
+    {q:"Why is &ldquo;we need to rebuild the claims portal&rdquo; a poor problem statement?",
+     opts:["It embeds a solution instead of describing a problem","It is too short","Portals should never be rebuilt","It does not include a deadline"],
+     correct:0,
+     why:"With the solution already chosen, every later conversation is about the rebuild. Nobody goes back to ask whether a rebuild was the right answer &mdash; or what the real problem was."}
+  ]
+},
+{
+  id:"m3", title:"Start With The Whys",
+  blurb:"Root cause analysis &mdash; symptom to real cause",
+  sub:"The Five Whys is how you fill in the &ldquo;Cause&rdquo; C with something real instead of restating the symptom.",
+  points:[
+    "<b>The technique.</b> Ask &ldquo;why?&rdquo; of each successive answer, travelling from the surface symptom down to the underlying cause.",
+    "<b>Five is a rule of thumb, not a quota.</b> You stop when you reach a cause you can actually act on. Sometimes that is three whys; sometimes seven.",
+    "<b>Worked example.</b> Applications take three weeks. Why? Every one is checked by hand. Why? The data sits in four systems. Why? Nothing links them. <em>Root cause: no common identifier across systems.</em> Hiring more checkers treats the symptom and leaves the cause untouched.",
+    "<b>The classic mistake.</b> Stopping at the first plausible answer &mdash; or landing on a person (&ldquo;the officer was careless&rdquo;) instead of a system you can change. Ask why a careful professional made that mistake and you usually find a process that made it easy to make."
+  ],
+  practice:[
+    {q:"The purpose of the Five Whys is to:",
+     opts:["Move from a surface symptom to the underlying cause","Justify a solution that has already been chosen","Establish who was responsible for a failure","Generate exactly five options to evaluate"],
+     correct:0,
+     why:"It is a tool for digging &mdash; not for defending a decision already made, and not for apportioning blame."},
+    {q:"You have asked &ldquo;why&rdquo; three times and reached a cause you can genuinely act on. What now?",
+     opts:["Stop &mdash; five is a rule of thumb, not a quota","Keep going until you have asked exactly five times","Start again from a different symptom","Escalate before going any further"],
+     correct:0,
+     why:"The number was never the point. An actionable cause is the point."},
+    {q:"&ldquo;Applications take 3 weeks &rarr; every one is checked by hand &rarr; data sits in 4 systems &rarr; nothing links the records.&rdquo; Which is the root cause?",
+     opts:["There is no common identifier linking records across systems","Applications take three weeks","Officers check applications by hand","There are four systems"],
+     correct:0,
+     why:"The first is the symptom; the middle two are consequences of the last one. Fix the identifier and the manual checking stops being necessary &mdash; fix the checking alone and the cause stays put."},
+    {q:"Which is the clearest sign a Five Whys has gone wrong?",
+     opts:["The chain ends at &ldquo;the officer wasn't careful enough&rdquo;","The chain ends at a system or process","You only asked why four times","Two colleagues produce the same chain independently"],
+     correct:0,
+     why:"Landing on a person means you stopped early. There is almost always another why underneath: what made that error so easy to make?"},
+    {q:"Root cause analysis is how you fill in which part of the 4Cs?",
+     opts:["Cause","Clarity","Consequence","Confirmation"],
+     correct:0,
+     why:"Without it, the Cause line tends to become the symptom rewritten in different words."}
+  ]
+},
+{
+  id:"m4", title:"Metrics",
+  blurb:"Measuring real outcomes, not activity",
+  sub:"Knowing what to measure is as important as knowing what to build &mdash; your metric defines what &ldquo;working&rdquo; means.",
+  points:[
+    "<b>Activity vs outcome.</b> An activity metric counts motion: conversations handled, logins, tickets opened. An outcome metric counts change: time to resolve a case, error rate, applications completed without help.",
+    "<b>Vanity metrics.</b> A number can rise while the service gets worse. Chatbot sessions up 300% may mean it keeps failing and users keep retrying. Volume without resolution tells you nothing good.",
+    "<b>A good outcome metric</b> is tied to the <em>consequence</em> in your problem statement, measurable before and after, and hard to game by simply doing more activity.",
+    "<b>Keep a guardrail.</b> A second metric that confirms improving the first did not break something else &mdash; speed up processing, but watch the error and rework rate alongside it."
+  ],
+  practice:[
+    {q:"Which of these is an <em>activity</em> metric?",
+     opts:["Number of chatbot conversations per week","Average time to resolve a case","Percentage of applications completed without staff help","Error rate in processed claims"],
+     correct:0,
+     why:"Conversations count motion. The other three all describe a change in how well the service works."},
+    {q:"Three months in: chatbot conversations up 300%, average resolution time unchanged, repeat contacts rising. Best reading?",
+     opts:["Volume is a vanity metric here &mdash; the outcome has not moved","A clear success, since adoption is high","The model simply needs more training data","The metric should become conversations per officer"],
+     correct:0,
+     why:"Rising volume alongside flat resolution and more repeat contacts is the signature of a bot that is failing and making people try again. More training data might help &mdash; but nothing here has told you that yet."},
+    {q:"Your main metric is &ldquo;cut average processing time.&rdquo; What is a sensible guardrail metric?",
+     opts:["Error and rework rate","Number of cases processed","Team headcount","Number of releases shipped"],
+     correct:0,
+     why:"The easiest way to process faster is to check less carefully. A guardrail catches that trade-off before it becomes a public problem."},
+    {q:"What makes an outcome metric a good one?",
+     opts:["It ties to the consequence in your problem statement and is hard to game by doing more activity","It is easy to collect automatically","It always goes up over time","It is the one leadership already reports"],
+     correct:0,
+     why:"Convenience and familiarity are how teams end up measuring the wrong thing. A metric that only ever rises is usually measuring effort, not results."},
+    {q:"Why is choosing the metric as important as choosing what to build?",
+     opts:["The metric defines what &ldquo;working&rdquo; means &mdash; the wrong one can make a failing solution look successful","Metrics are needed for the budget submission","It determines which team gets credit","Metrics make reports easier to write"],
+     correct:0,
+     why:"Pick the wrong measure and you can run for a year believing you succeeded, while the problem in your statement sits untouched."},
+    {q:"Which pair works best as an outcome metric plus its guardrail?",
+     opts:["Time to resolve a case &nbsp;+&nbsp; rework rate","Number of logins &nbsp;+&nbsp; number of page views","Features shipped &nbsp;+&nbsp; story points completed","Staff trained &nbsp;+&nbsp; sessions delivered"],
+     correct:0,
+     why:"Only the first pairs a real change with a check that you did not achieve it by cutting corners. The others are activity measured twice."}
+  ]
+},
+{
+  id:"m5", title:"Assumptions and Risks",
+  blurb:"Surface, stress-test and de-risk early",
+  sub:"Every solution rests on assumptions. The ones nobody wrote down become expensive mistakes in production.",
+  points:[
+    "<b>Three moves:</b> surface the assumption, stress-test it, de-risk it &mdash; in that order, and early, while changing course is still cheap.",
+    "<b>Test the riskiest first.</b> Not the easiest or cheapest &mdash; the one that is both most uncertain and most damaging if wrong. Testing something you were already confident about tells you nothing.",
+    "<b>De-risk cheaply.</b> The best test is the smallest thing that could <em>disprove</em> the assumption: a rough prototype, a manual pilot, or data you already hold &mdash; before building the real thing.",
+    "<b>Common AI assumptions.</b> That the underlying data is accurate, current and covers the cases officers really see &mdash; and that officers will trust and act on what the model returns."
+  ],
+  practice:[
+    {q:"What are the three moves for handling an assumption?",
+     opts:["Surface it, stress-test it, de-risk it","Document it, approve it, archive it","Estimate it, budget it, schedule it","Ignore it, monitor it, escalate it"],
+     correct:0,
+     why:"Surfacing alone is not enough &mdash; a written-down assumption nobody tested is still a risk in production."},
+    {q:"Which assumption should you test first?",
+     opts:["The one that is most uncertain and most damaging if wrong","The one that is cheapest and quickest to test","The one your sponsor asks about most often","The one you can only test after launch"],
+     correct:0,
+     why:"Test order is set by risk, not convenience. Cheap tests of things you were already sure about feel productive and change nothing."},
+    {q:"Cheapest way to de-risk &ldquo;officers will trust the AI's case summary&rdquo;?",
+     opts:["Show a rough summary to a handful of officers with real cases and watch what they do","Build the full feature and monitor usage after launch","Add a disclaimer noting the summary is AI-generated","Survey officers on whether they feel positive about AI"],
+     correct:0,
+     why:"Trust shows up in behaviour, not stated attitudes. Watching a few officers work real cases costs days; finding out after launch costs the build."},
+    {q:"Why surface assumptions early rather than during delivery?",
+     opts:["Early on, being wrong is cheap to correct; in production it rarely is","It is required for governance sign-off","It shortens the testing phase","It reduces the number of stakeholders involved"],
+     correct:0,
+     why:"The cost of a wrong assumption climbs steeply the further you build on top of it."},
+    {q:"Which is a hidden assumption most AI solutions rest on?",
+     opts:["That the underlying data is accurate, current, and covers the cases officers actually see","That the model provider will lower its prices","That the team can learn the framework quickly","That the interface will be built in-house"],
+     correct:0,
+     why:"Data quality and coverage sit underneath everything the model produces &mdash; and are rarely written down as an assumption at all."}
+  ]
+},
+{
+  id:"m6", title:"A Good Customer Experience",
+  blurb:"What it actually feels like to use it",
+  sub:"You have a problem statement, metrics and a handle on risk. One question remains.",
+  points:[
+    "<b>The remaining question:</b> what does it actually <em>feel</em> like to use the thing you are about to build?",
+    "<b>Technically correct still fails.</b> If a tool is confusing, slow, or lands at the wrong moment in someone's workflow, people route around it or quietly keep the old way.",
+    "<b>Workarounds are data.</b> When officers keep using their old spreadsheet, they are telling you the experience does not fit the job &mdash; not that they need more training.",
+    "<b>How you check:</b> watch real users attempt the real task, not a rehearsed demo to stakeholders.",
+    "<b>Why it matters:</b> an unused tool produces no outcome at all. Experience is what converts a shipped output into an actual change."
+  ],
+  practice:[
+    {q:"Your tool meets every documented requirement, but officers keep using their old spreadsheet. Product thinking says:",
+     opts:["The output shipped but the outcome did not &mdash; go and understand the real workflow","Mandate the new tool and enforce compliance","The requirements were wrong, so rebuild from scratch","Run more training sessions and move on"],
+     correct:0,
+     why:"A workaround is evidence. People are telling you the experience does not fit the job, and an unused tool delivers no outcome however complete its requirements."},
+    {q:"How do you best find out whether the experience is any good?",
+     opts:["Watch real users attempt the real task","Demo it to stakeholders and collect their feedback","Check that all requirements are ticked off","Survey users on whether they like the design"],
+     correct:0,
+     why:"A demo shows what you meant to build. Watching someone attempt real work shows what you actually built."},
+    {q:"Why can a technically correct solution still fail?",
+     opts:["If it is confusing, slow or badly timed in the workflow, people work around it","Because technical quality does not matter","Because requirements are always wrong","Because users dislike change on principle"],
+     correct:0,
+     why:"Correctness is necessary but not sufficient. Fit with the real workflow is what decides whether it gets used."},
+    {q:"How does customer experience connect back to outcomes?",
+     opts:["An unused tool produces no outcome, so experience is what turns an output into change","It does not &mdash; experience is a separate concern from outcomes","Good experience replaces the need for metrics","Experience matters only for public-facing services"],
+     correct:0,
+     why:"Adoption sits between the thing you shipped and the change you wanted. Experience is what carries it across."}
+  ]
+},
+{
+  id:"m7", title:"Key Takeaways",
+  blurb:"Pulling the pathway together",
+  sub:"Product thinking is a discipline of asking better questions before reaching for solutions.",
+  points:[
+    "<b>The definition.</b> Product thinking is a discipline of asking better questions before reaching for solutions.",
+    "<b>The order of questions.</b> What is the problem, and for whom? &rarr; Why does it exist? &rarr; What change counts as success? &rarr; What must be true for this to work? &rarr; What will it feel like to use?",
+    "<b>What earns the right to build.</b> A clear, evidence-backed problem statement, an outcome metric you can move, and the riskiest assumptions already tested.",
+    "<b>The recurring trap.</b> Every module has a version of the same failure &mdash; jumping to the solution. A named technology, a rebuild, a feature list, a vanity metric, an untested assumption. Slowing down at the start is the whole discipline."
+  ],
+  practice:[
+    {q:"Which best defines product thinking?",
+     opts:["A discipline of asking better questions before reaching for solutions","A method for prioritising a delivery backlog","A framework for choosing technology platforms","A way of estimating project timelines"],
+     correct:0,
+     why:"The others are useful practices, but they all assume the problem is already settled. Product thinking is the work you do before that point."},
+    {q:"What is the right order of questions?",
+     opts:["Problem &rarr; cause &rarr; measure of success &rarr; assumptions &rarr; experience","Experience &rarr; problem &rarr; assumptions &rarr; cause &rarr; measure","Assumptions &rarr; measure &rarr; problem &rarr; cause &rarr; experience","Measure &rarr; experience &rarr; problem &rarr; assumptions &rarr; cause"],
+     correct:0,
+     why:"Each step depends on the one before. You cannot choose a success measure before you know the problem, or test assumptions before you know what you are proposing."},
+    {q:"What earns a team the right to start building?",
+     opts:["A clear evidence-backed problem, an outcome metric, and the riskiest assumptions tested","An approved budget and a delivery date","A shortlist of capable vendors","Sponsorship from a senior leader"],
+     correct:0,
+     why:"The other three make a build possible. Only the first makes it likely to be worth doing."},
+    {q:"What is the single failure pattern running through every module?",
+     opts:["Jumping to a solution before the problem is understood","Underestimating how long delivery takes","Choosing the wrong technology platform","Not involving enough stakeholders"],
+     correct:0,
+     why:"A named technology, a rebuild, a feature list, a vanity metric, an untested assumption &mdash; all the same move, wearing different clothes."}
+  ]
+}
+];
+
+/* ---------- final quiz: 20 applied scenarios ---------- */
+const QUIZ = [
+ {m:"m1", q:"A minister announces the department will &ldquo;adopt AI this year.&rdquo; Your team is asked to find a use for it. What is the product-thinking response?",
+  opts:["Start from the department's real problems and see which, if any, AI genuinely fits","Pick the most visible process and automate it","Choose the AI product with the best reviews","Wait for a more detailed instruction"],
+  correct:0, why:"You cannot refuse the direction, but you can invert the order of work: find the problems worth solving first, then test whether AI is the right answer to any of them."},
+ {m:"m1", q:"Which of these best describes an output?",
+  opts:["A new case management system was launched in June","Officer workload dropped by six hours a week","Complaints about processing delays halved","More applicants completed the form unaided"],
+  correct:0, why:"A launch is something you produced. The other three describe changes that followed &mdash; outcomes."},
+ {m:"m1", q:"A solution is technically excellent, but the operational team has no capacity to run it and policy requires a manual check it removes. Which principle was skipped?",
+  opts:["Policy-Ops-Tech integration","Outcomes over outputs","Problems before solutions","Confirmation"],
+  correct:0, why:"Designed in isolation, the tech is fine on its own terms and unusable in context. Integration means all three are designed together, not reviewed in sequence."},
+ {m:"m2", q:"Which is the strongest problem statement?",
+  opts:["Applicants over 65 abandon the online renewal at the ID upload step: 42% drop out there, adding ~800 counter visits a month, because the step requires a smartphone camera many do not have","The renewal journey is not user-friendly and should be redesigned","Our renewal system is outdated and needs modernising","Older users struggle with the renewal form and are frustrated"],
+  correct:0, why:"It names the group and the failure (Clarity), the cost (Consequence), the driver (Cause) and the data (Confirmation). The rest are complaints or solutions in disguise."},
+ {m:"m2", q:"A problem statement says who is affected, cites solid data, and explains the underlying driver &mdash; but never says what happens if nothing is done. Which C is missing?",
+  opts:["Consequence","Clarity","Cause","Confirmation"],
+  correct:0, why:"Without Consequence there is no case for priority. Every problem is real; the question is which ones cost enough to act on now."},
+ {m:"m2", q:"Which is the weakest form of Confirmation?",
+  opts:["Several colleagues have mentioned the same frustration","Six months of drop-off data from the form analytics","A published audit of processing times","Case records showing repeated resubmissions"],
+  correct:0, why:"Shared frustration is a signal worth following, but it is anecdote &mdash; it cannot tell you how common the problem is or how much it costs."},
+ {m:"m3", q:"An officer misfiles a case and the incident review recommends a reminder email about care and attention. What has gone wrong?",
+  opts:["The analysis stopped at a person instead of the system that made the error easy","Nothing &mdash; this is a proportionate response","The review should have recommended retraining","The review needed more stakeholders"],
+  correct:0, why:"Ask why a competent officer misfiled it and you usually find confusing labels, a bad default, or a screen that hides the crucial field. Reminder emails leave all of that in place."},
+ {m:"m3", q:"When should you stop asking &ldquo;why&rdquo;?",
+  opts:["When you reach a cause you can actually act on","After exactly five whys","When someone accepts responsibility","When the group runs out of ideas"],
+  correct:0, why:"Actionability is the stopping rule. Five is only a reminder that the first answer is rarely the real one."},
+ {m:"m3", q:"&ldquo;Staff miss the deadline &rarr; they find out late &rarr; the alert goes to a shared inbox &rarr; nobody owns that inbox.&rdquo; What should the solution address?",
+  opts:["Ownership and routing of the alert","Reminding staff about deadlines","Making the deadline longer","Sending the alert more often"],
+  correct:0, why:"An unowned inbox is the cause. Sending more alerts into it, or extending deadlines, works around a problem that stays exactly where it was."},
+ {m:"m4", q:"Which set of numbers gives the strongest evidence a new triage tool is working?",
+  opts:["Median time to first response fell 40%, with the error rate flat","Tool usage grew 250% quarter on quarter","95% of staff attended the training","The tool handled 12,000 cases this month"],
+  correct:0, why:"It shows a real change plus a guardrail confirming it was not bought by cutting quality. The others count activity."},
+ {m:"m4", q:"A team reports &ldquo;10,000 downloads&rdquo; as proof of success. The main weakness is:",
+  opts:["A download is activity, not evidence anything improved","The number is too small to be meaningful","Downloads should be measured weekly","It should be compared against other agencies"],
+  correct:0, why:"Downloads say people obtained the thing. They say nothing about whether it worked, whether it was used twice, or whether the original problem shrank."},
+ {m:"m4", q:"You cut average processing time by 30%, but rework rises from 3% to 11%. The right conclusion is:",
+  opts:["The guardrail has caught a real trade-off &mdash; the gain is partly illusory","A clear success, since the main metric improved","Rework is a separate team's concern","The guardrail metric should be dropped"],
+  correct:0, why:"This is exactly what guardrails are for. Work redone is work repeated &mdash; some of that 30% is being paid back with interest downstream."},
+ {m:"m4", q:"Which metric would be hardest to game by simply doing more activity?",
+  opts:["Percentage of applications approved without any follow-up contact","Number of applications processed","Number of officer hours logged","Number of system updates released"],
+  correct:0, why:"It is a ratio tied to getting things right first time. The other three all rise when you simply do more, regardless of quality."},
+ {m:"m5", q:"Your solution assumes agencies will share data weekly. This has never been tested and the whole design collapses without it. You should:",
+  opts:["Test this assumption before building anything on top of it","Note it in the risk register and proceed","Build the solution and request the data later","Design around it only if a problem appears"],
+  correct:0, why:"Most uncertain and most damaging if wrong &mdash; the definition of what you test first. A risk register entry is documentation, not a test."},
+ {m:"m5", q:"Which is a genuine test of the assumption &ldquo;caseworkers will act on the model's recommendation&rdquo;?",
+  opts:["Give a few caseworkers real recommendations on real cases and observe their decisions","Ask caseworkers in a survey whether they would act on it","Measure the model's accuracy on historical data","Present the model's design at a team meeting"],
+  correct:0, why:"Accuracy is a different assumption, and stated intent is a poor predictor of behaviour. Only observed decisions test this one."},
+ {m:"m5", q:"A pilot shows the model is 94% accurate, so the team proceeds to full build. What assumption remains untested?",
+  opts:["That officers will trust and act on the output in real conditions","That the model can be deployed technically","That the accuracy figure was calculated correctly","That the pilot had enough participants"],
+  correct:0, why:"Accuracy is about the model. Adoption is about people &mdash; and a highly accurate tool nobody acts on still produces no outcome."},
+ {m:"m6", q:"Six months after launch, usage is high but officers say the tool adds a step to their day. Best next move?",
+  opts:["Observe the end-to-end workflow to see where it actually fits","Add features officers have requested","Report the high usage as success","Run refresher training"],
+  correct:0, why:"High usage plus complaints usually means the tool is mandatory rather than useful. The workflow, not the feature list, will show you why."},
+ {m:"m6", q:"Why is a stakeholder demo weak evidence that the experience works?",
+  opts:["It shows the path you designed, not the path a real user takes under real conditions","Stakeholders are not qualified to judge","Demos take too long to prepare","Demos cannot show edge cases"],
+  correct:0, why:"A demo is rehearsed and narrated by someone who already knows the answer. Real use has interruptions, unclear cases and no narrator."},
+ {m:"m7", q:"Which team is genuinely ready to start building?",
+  opts:["Evidenced problem statement, an outcome metric, riskiest assumptions tested","Approved budget, signed contract, delivery date agreed","Detailed feature list and technical architecture","Executive sponsor and a communications plan"],
+  correct:0, why:"The others answer &ldquo;can we build?&rdquo; Only the first answers &ldquo;should we, and how will we know it worked?&rdquo;"},
+ {m:"m7", q:"What single habit best summarises the whole pathway?",
+  opts:["Slow down at the start and interrogate the problem before choosing a solution","Ship early and iterate on user feedback","Choose proven technology over novel technology","Involve as many stakeholders as possible"],
+  correct:0, why:"Every module is a version of the same discipline: resist the leap to a solution long enough to know what you are actually solving."}
+];
+
+/* ==========================================================================
+   STATE
+   ========================================================================== */
+const KEY = "pt-trainer-v2";
+let state = load();
+
+function load(){
+  try{
+    const p = JSON.parse(localStorage.getItem(KEY));
+    if(p && p.done && typeof p.done === "object") return p;
+  }catch(e){}
+  return {done:{}, best:null};
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+const isDone = id => !!state.done[id];
+const doneCount = () => MODULES.filter(m=>isDone(m.id)).length;
+const allDone = () => doneCount() === MODULES.length;
+
+function shuffle(a){
+  const r = a.slice();
+  for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; }
+  return r;
+}
+// shuffle options while tracking where the right answer landed
+function prep(q){
+  const mixed = shuffle(q.opts.map((text,i)=>({text, ok:i===q.correct})));
+  return {src:q, opts:mixed, correct:mixed.findIndex(o=>o.ok)};
+}
+
+/* ==========================================================================
+   VIEWS
+   ========================================================================== */
+const views = {
+  home:     document.getElementById("view-home"),
+  brief:    document.getElementById("view-brief"),
+  practice: document.getElementById("view-practice"),
+  quiz:     document.getElementById("view-quiz"),
+  result:   document.getElementById("view-result")
+};
+function show(name){
+  for(const k in views) views[k].hidden = (k !== name);
+  window.scrollTo(0,0);
+}
+function goHome(){ renderHome(); show("home"); }
+document.getElementById("homeBtn").addEventListener("click", goHome);
+document.querySelectorAll("[data-home]").forEach(b=>b.addEventListener("click", goHome));
+
+function renderTrack(){
+  const n = doneCount();
+  document.getElementById("barFill").style.width = (n/MODULES.length*100)+"%";
+  document.getElementById("barLabel").textContent = n + " / " + MODULES.length;
+}
+
+/* ---------- home ---------- */
+function renderHome(){
+  renderTrack();
+  const list = document.getElementById("modList");
+  list.innerHTML = "";
+  MODULES.forEach((m,i)=>{
+    const done = isDone(m.id);
+    const b = document.createElement("button");
+    b.className = "mod" + (done ? " done" : "");
+    b.innerHTML =
+      '<span class="idx">'+String(i+1).padStart(2,"0")+'</span>'+
+      '<span><h3>'+m.title+'</h3><span class="meta">'+m.blurb+
+        ' &middot; '+m.points.length+' key ideas &middot; '+m.practice.length+' questions</span></span>'+
+      '<span class="state">'+(done ? "&#10003; Complete" : "Start")+'</span>';
+    b.addEventListener("click", ()=>openBrief(m));
+    list.appendChild(b);
+  });
+
+  const open = allDone();
+  document.getElementById("gate").classList.toggle("open", open);
+  document.getElementById("gateIcon").innerHTML = open ? "&#127919;" : "&#128274;";
+  document.getElementById("gateTitle").textContent = open ? "Final quiz unlocked" : "Final quiz locked";
+  document.getElementById("quizBtn").disabled = !open;
+  document.getElementById("gateText").innerHTML = open
+    ? QUIZ.length+" applied scenarios drawn from all seven modules."+
+      (state.best!==null ? " Your best score so far: <b>"+state.best+"%</b>." : "")
+    : QUIZ.length+" applied scenarios. Complete all seven modules to unlock &mdash; "+
+      (MODULES.length-doneCount())+" to go.";
+}
+document.getElementById("quizBtn").addEventListener("click", startQuiz);
+document.getElementById("resetBtn").addEventListener("click", ()=>{
+  if(confirm("Reset all progress, including your best quiz score?")){
+    state = {done:{}, best:null}; save(); goHome();
+  }
+});
+
+/* ---------- brief ---------- */
+let current = null;
+function openBrief(mod){
+  current = mod;
+  const i = MODULES.indexOf(mod)+1;
+  document.getElementById("briefStage").innerHTML = "Module "+i+" of "+MODULES.length+" &nbsp;&middot;&nbsp; Brief";
+  document.getElementById("briefTitle").textContent = mod.title;
+  document.getElementById("briefSub").innerHTML = mod.sub;
+  const ul = document.getElementById("briefPoints");
+  ul.innerHTML = "";
+  mod.points.forEach((p,k)=>{
+    const li = document.createElement("li");
+    li.innerHTML = '<span class="n">'+(k+1)+'</span><span>'+p+'</span>';
+    ul.appendChild(li);
+  });
+  document.getElementById("briefCount").textContent =
+    mod.practice.length + " practice questions follow";
+  show("brief");
+}
+document.getElementById("briefGo").addEventListener("click", ()=>startPractice(current));
+
+/* ---------- practice: MCQ, wrong answers requeue ---------- */
+let prac = null;
+function startPractice(mod){
+  current = mod;
+  prac = { mod, queue: mod.practice.map(prep), correct:0, total: mod.practice.length, locked:false };
+  show("practice");
+  renderPractice();
+}
+function renderPractice(){
+  const p = prac;
+  document.getElementById("pTitle").textContent = p.mod.title;
+  document.getElementById("pCount").textContent = p.correct+" / "+p.total+" correct";
+  document.getElementById("pFill").style.width = (p.correct/p.total*100)+"%";
+
+  const q = p.queue[0];
+  document.getElementById("pQ").innerHTML = q.src.q;
+  document.getElementById("pWhy").hidden = true;
+  document.getElementById("pNext").hidden = true;
+  document.getElementById("pHint").textContent = "Pick the best answer — you will see why straight after.";
+  p.locked = false;
+
+  const box = document.getElementById("pOpts");
+  box.innerHTML = "";
+  q.opts.forEach((o,i)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = '<span class="letter">'+"ABCD"[i]+'</span><span>'+o.text+'</span>';
+    b.addEventListener("click", ()=>answerPractice(i));
+    box.appendChild(b);
+  });
+  const panel = box.closest(".panel");
+  panel.classList.remove("fade"); void panel.offsetWidth; panel.classList.add("fade");
+}
+function answerPractice(pick){
+  const p = prac;
+  if(p.locked) return;
+  p.locked = true;
+  const q = p.queue[0];
+  const right = pick === q.correct;
+
+  const btns = document.getElementById("pOpts").children;
+  for(let i=0;i<btns.length;i++){
+    btns[i].disabled = true;
+    if(i===q.correct) btns[i].classList.add("correct");
+    else if(i===pick) btns[i].classList.add("wrong");
+    else btns[i].classList.add("dim");
+  }
+  const why = document.getElementById("pWhy");
+  why.className = "why " + (right ? "ok" : "no");
+  document.getElementById("pWhyLabel").textContent = right ? "Correct" : "Not quite";
+  document.getElementById("pWhyText").innerHTML = q.src.why;
+  why.hidden = false;
+
+  if(right){ p.correct++; p.queue.shift(); }
+  else { p.queue.push(p.queue.shift()); }   // comes back later in this module
+
+  document.getElementById("pCount").textContent = p.correct+" / "+p.total+" correct";
+  document.getElementById("pFill").style.width = (p.correct/p.total*100)+"%";
+  document.getElementById("pHint").textContent = right
+    ? "" : "This one will come back again before the module ends.";
+
+  const next = document.getElementById("pNext");
+  next.textContent = p.queue.length === 0 ? "Finish module" : "Continue";
+  next.hidden = false;
+}
+document.getElementById("pNext").addEventListener("click", ()=>{
+  if(prac.queue.length === 0){
+    state.done[prac.mod.id] = true; save();
+    const i = MODULES.indexOf(prac.mod);
+    if(i+1 < MODULES.length && !isDone(MODULES[i+1].id)) openBrief(MODULES[i+1]);
+    else goHome();
+    return;
+  }
+  renderPractice();
+});
+
+/* ---------- final quiz ---------- */
+let quiz = null;
+function startQuiz(){
+  quiz = { i:0, score:0, wrong:[], locked:false, qs: QUIZ.map(prep) };
+  show("quiz");
+  renderQuiz();
+}
+function renderQuiz(){
+  const q = quiz.qs[quiz.i];
+  document.getElementById("qStage").innerHTML = "Scenario "+(quiz.i+1);
+  document.getElementById("qCount").textContent = "Question "+(quiz.i+1)+" of "+quiz.qs.length;
+  document.getElementById("qFill").style.width = (quiz.i/quiz.qs.length*100)+"%";
+  document.getElementById("qQ").innerHTML = q.src.q;
+  document.getElementById("qScore").textContent = quiz.score+" correct so far";
+  document.getElementById("qWhy").hidden = true;
+  document.getElementById("qNext").hidden = true;
+  quiz.locked = false;
+
+  const box = document.getElementById("qOpts");
+  box.innerHTML = "";
+  q.opts.forEach((o,i)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = '<span class="letter">'+"ABCD"[i]+'</span><span>'+o.text+'</span>';
+    b.addEventListener("click", ()=>answerQuiz(i));
+    box.appendChild(b);
+  });
+  const panel = box.closest(".panel");
+  panel.classList.remove("fade"); void panel.offsetWidth; panel.classList.add("fade");
+}
+function answerQuiz(pick){
+  if(quiz.locked) return;
+  quiz.locked = true;
+  const q = quiz.qs[quiz.i];
+  const right = pick === q.correct;
+  if(right) quiz.score++; else quiz.wrong.push(q.src);
+
+  const btns = document.getElementById("qOpts").children;
+  for(let i=0;i<btns.length;i++){
+    btns[i].disabled = true;
+    if(i===q.correct) btns[i].classList.add("correct");
+    else if(i===pick) btns[i].classList.add("wrong");
+    else btns[i].classList.add("dim");
+  }
+  const why = document.getElementById("qWhy");
+  why.className = "why " + (right ? "ok" : "no");
+  document.getElementById("qWhyLabel").textContent = right ? "Correct" : "Not quite";
+  document.getElementById("qWhyText").innerHTML = q.src.why;
+  why.hidden = false;
+  document.getElementById("qScore").textContent = quiz.score+" correct so far";
+
+  const next = document.getElementById("qNext");
+  next.textContent = (quiz.i === quiz.qs.length-1) ? "See results" : "Next question";
+  next.hidden = false;
+}
+document.getElementById("qNext").addEventListener("click", ()=>{
+  if(quiz.i < quiz.qs.length-1){ quiz.i++; renderQuiz(); }
+  else renderResults();
+});
+document.getElementById("retakeBtn").addEventListener("click", startQuiz);
+
+/* ---------- results ---------- */
+function renderResults(){
+  const pct = Math.round(quiz.score/quiz.qs.length*100);
+  if(state.best === null || pct > state.best){ state.best = pct; save(); }
+  renderTrack();
+
+  const C = 2*Math.PI*69;
+  const arc = document.getElementById("ringArc");
+  arc.style.strokeDashoffset = C;
+  document.getElementById("ringVal").textContent = pct+"%";
+  document.getElementById("resTitle").textContent = quiz.score+" of "+quiz.qs.length+" correct";
+
+  let msg;
+  if(pct === 100) msg = "Full marks. You are framing problems, not just recognising the vocabulary.";
+  else if(pct >= 80) msg = "Strong. One or two ideas are still settling — the modules below will finish the job.";
+  else if(pct >= 60) msg = "A solid base. Another pass through the weaker modules will move this a long way.";
+  else msg = "Worth working through the briefs again before applying this — the practice questions are where it sticks.";
+  document.getElementById("resMsg").textContent = msg;
+
+  const box = document.getElementById("weakBox"), list = document.getElementById("weakList");
+  list.innerHTML = "";
+  const by = {};
+  quiz.wrong.forEach(w=>{ by[w.m] = (by[w.m]||0)+1; });
+  const keys = Object.keys(by);
+  box.hidden = keys.length === 0;
+  keys.sort((a,b)=>by[b]-by[a]).forEach(id=>{
+    const mod = MODULES.find(m=>m.id===id);
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.textContent = mod.title;
+    b.addEventListener("click", ()=>openBrief(mod));
+    li.appendChild(b);
+    li.appendChild(document.createTextNode(
+      by[id] + (by[id]===1 ? " question missed" : " questions missed")));
+    list.appendChild(li);
+  });
+
+  show("result");
+  requestAnimationFrame(()=>{ arc.style.strokeDashoffset = C*(1-pct/100); });
+}
+
+goHome();
+</script>
+</body>
+</html>
